@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="22b75731-ff0a-4b94-bedf-8b056d7893d1" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<anypoint-mq:default-subscriber-config name="Anypoint_MQ_Default_subscriber" doc:name="Anypoint MQ Default subscriber" doc:id="b8c1531c-88be-40b2-b8b6-ac0b42bc028e" >
+		<anypoint-mq:connection clientId="686d479a1966408b83b040a8cd960f07" clientSecret="4ffa5836a8884c6e92F190F889A06C3A" />
+	</anypoint-mq:default-subscriber-config>
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="4122829b-fc87-46e0-b2bd-c3f2752abceb" >
+		<jms:active-mq-connection username="dejim" password="">
+			<jms:caching-strategy >
+				<jms:default-caching />
+			</jms:caching-strategy>
+			<jms:factory-configuration brokerUrl="ssl://b-2d3dcc2f-5a65-47b9-9e3a-cb30a818a2ef-1.mq.us-east-1.amazonaws.com:61617"/>
+		</jms:active-mq-connection>
+		<jms:consumer-config >
+			<jms:consumer-type >
+				<jms:queue-consumer />
+			</jms:consumer-type>
+		</jms:consumer-config>
+	</jms:config>
+	<flow name="messaging-amqpFlow" doc:id="0c186404-c603-4163-b7b1-1e649ced61fd" >
+		<http:listener doc:name="Listener" doc:id="a6577a59-8d06-4da8-a1a8-f331c237b4c9" config-ref="HTTP_Listener_config" path="/test"/>
+		<set-payload value="Hello World!" doc:name="Set Payload" doc:id="267d0e70-ed16-4d8a-b210-662fcd053ed4" />
+		<jms:publish doc:name="Publish" doc:id="c1834c7f-97c7-4833-943a-30ccb102b368" config-ref="JMS_Config" destination="one-queue"/>
+	</flow>
+	<flow name="messaging-amqpFlow1" doc:id="2d854664-d62e-4963-91f1-3a5e1ed931e0" >
+		<jms:listener doc:name="Listener" doc:id="f530b05b-c134-479b-95d5-5b2a560ba60d" config-ref="JMS_Config" destination="one-queue" ackMode="AUTO">
+			<jms:consumer-type >
+				<jms:queue-consumer />
+			</jms:consumer-type>
+		</jms:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="3d08fad7-3244-491f-8497-4146be60d035" message="#[payload]"/>
+	</flow>
+</mule>
