@@ -1,6 +1,6 @@
 {
   "configs": [
-    "messaging-amqp.xml"
+    "jms-messaging.xml"
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,

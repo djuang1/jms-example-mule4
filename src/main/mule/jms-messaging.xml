@@ -14,11 +14,11 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 		<anypoint-mq:connection clientId="686d479a1966408b83b040a8cd960f07" clientSecret="4ffa5836a8884c6e92F190F889A06C3A" />
 	</anypoint-mq:default-subscriber-config>
 	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="4122829b-fc87-46e0-b2bd-c3f2752abceb" >
-		<jms:active-mq-connection username="dejim" password="">
+		<jms:active-mq-connection username="mule" password="">
 			<jms:caching-strategy >
 				<jms:default-caching />
 			</jms:caching-strategy>
-			<jms:factory-configuration brokerUrl="ssl://b-2d3dcc2f-5a65-47b9-9e3a-cb30a818a2ef-1.mq.us-east-1.amazonaws.com:61617"/>
+			<jms:factory-configuration brokerUrl="ssl://b-2e96c1a3-498f-45fb-bab9-dc038627d131-1.mq.us-east-1.amazonaws.com:61617"/>
 		</jms:active-mq-connection>
 		<jms:consumer-config >
 			<jms:consumer-type >
